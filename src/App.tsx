@@ -1,7 +1,9 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
-import Layout from './components/Layout';
-
+import Money from './views/Money';
+import Statistics from './views/Statistics';
+import Tags from './views/Tags';
+import Notfind from './views/Notfind';
 
 function App() {
     return (
@@ -14,36 +16,4 @@ function App() {
         </Routes>
     );
 }
-
-function Tags() {
-    return (
-        <Layout>
-            <div>标签页</div>
-        </Layout>
-    );
-}
-
-function Money() {
-    return (
-    <Layout>
-        <div>记账页</div>
-    </Layout>
-    );
-}
-
-function Statistics() {
-    return (
-    <Layout>
-        <div>统计页</div>
-    </Layout>
-    );
-}
-
-function Notfind() {
-    return (
-        <div>你访问的页面不存在</div>
-    );
-}
-
-
 export default App;
