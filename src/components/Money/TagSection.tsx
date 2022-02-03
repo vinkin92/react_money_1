@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {useState} from 'react';
 
 const Wrapper = styled.section`
   background-color: #FFF;
@@ -19,6 +19,9 @@ const Wrapper = styled.section`
       padding: 3px 18px;
       font-size: 14px;
       margin: 8px 12px;
+      &.selected{
+        background-color: #f60;
+      }
     }
   }
 
@@ -34,15 +37,34 @@ const Wrapper = styled.section`
 `;
 // 表示 TagSection 的类型为 React的FunctionComponent, FunctionComponent 可以用 FC代替，源码中有写 FC=FunctionComponent
 const TagSection:React.FunctionComponent=()=>{
+    const [tags,setTags] = useState<string[]>(['衣','食','住','行']);
+    const [selectedTags,setSelectedTags]=useState<string[]>([])
+    const onAddTag=()=>{
+        const tagName = window.prompt('请输入新增的标签');
+        if(tagName !== null){
+            setTags([...tags,tagName])
+        }
+    }
+    const onToggleTag=(tag:string)=>{
+        // 查看选中的元素数组中是否含有该标签，
+        const index = selectedTags.indexOf(tag);
+        if(index >= 0){
+            // 如果 tag 之前已经被选中，则复制所有没有被选中的 tag 作为新的 selectedTag
+            setSelectedTags(selectedTags.filter(t=>t!==tag))
+        }else{
+            setSelectedTags([...selectedTags,tag])
+        }
+    }
     return(
         <Wrapper>
             <ol>
-                <li>衣</li>
-                <li>食</li>
-                <li>住</li>
-                <li>行</li>
+                // 遍历 tags 数组，使其每个值对应一个标签
+                // onclick=一个匿名箭头函数，则表示点击的时候才会执行函数并传递 tag 的值，如果直接写函数，则会立即执行
+                {tags.map(tag=>
+                    <li key={tag} onClick={()=>{onToggleTag(tag)}} className={selectedTags.indexOf(tag)>=0?'selected':''}>{tag}</li>
+                )}
             </ol>
-            <button>新增标签</button>
+            <button onClick={onAddTag}>新增标签</button>
         </Wrapper>
     )
 }
