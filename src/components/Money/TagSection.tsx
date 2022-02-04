@@ -35,9 +35,13 @@ const Wrapper = styled.section`
     margin-top: 8px;
   }
 `;
-const TagSection:React.FunctionComponent=()=>{
+type Props = {
+    selected:string[];
+    onChange:(selected:string[])=> void;  // 声明 onChange是一个函数，该函数接收一个字符串数组，返回值为 void（没有返回值）
+}
+const TagSection:React.FunctionComponent<Props> =(props)=>{
     const [tags,setTags] = useState<string[]>(['衣','食','住','行']);
-    const [selectedTags,setSelectedTags]=useState<string[]>([])
+    const selectedTags = props.selected;
     const onAddTag=()=>{
         const tagName = window.prompt('请输入新增的标签');
         if(tagName !== null){
@@ -47,9 +51,9 @@ const TagSection:React.FunctionComponent=()=>{
     const onToggleTag=(tag:string)=>{
         const index = selectedTags.indexOf(tag);
         if(index >= 0){
-            setSelectedTags(selectedTags.filter(t=>t!==tag))
+            props.onChange(selectedTags.filter(t=>t!==tag))
         }else{
-            setSelectedTags([...selectedTags,tag])
+            props.onChange([...selectedTags,tag])
         }
     }
     return(
