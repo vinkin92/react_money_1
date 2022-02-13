@@ -37,31 +37,31 @@ const Wrapper = styled.section`
   }
 `;
 type Props = {
-    selected:string[];
-    onChange:(selected:string[])=> void;  // 声明 onChange是一个函数，该函数接收一个字符串数组，返回值为 void（没有返回值）
+    selected:number[];
+    onChange:(selected:number[])=> void;  // 声明 onChange是一个函数，该函数接收一个字符串数组，返回值为 void（没有返回值）
 }
 const TagSection:React.FunctionComponent<Props> =(props)=>{
     const {tags,setTags} = useTags()
-    const selectedTags = props.selected;
+    const selectedTagIds = props.selected;
     const onAddTag=()=>{
         const tagName = window.prompt('请输入新增的标签');
         if(tagName !== null){
-            setTags([...tags,tagName])
+            setTags([...tags, {id:Math.random(),name:tagName}])
         }
     }
-    const onToggleTag=(tag:string)=>{
-        const index = selectedTags.indexOf(tag);
+    const onToggleTag=(tagId:number)=>{
+        const index = selectedTagIds.indexOf(tagId);
         if(index >= 0){
-            props.onChange(selectedTags.filter(t=>t!==tag))
+            props.onChange(selectedTagIds.filter(t=>t!==tagId))
         }else{
-            props.onChange([...selectedTags,tag])
+            props.onChange([...selectedTagIds,tagId])
         }
     }
     return(
         <Wrapper>
             <ol>
                 {tags.map(tag=>
-                    <li key={tag} onClick={()=>{onToggleTag(tag)}} className={selectedTags.indexOf(tag)>=0?'selected':''}>{tag}</li>
+                    <li key={tag.id} onClick={()=>{onToggleTag(tag.id)}} className={selectedTagIds.indexOf(tag.id)>=0?'selected':''}>{tag.name}</li>
                 )}
             </ol>
             <button onClick={onAddTag}>新增标签</button>
