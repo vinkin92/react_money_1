@@ -11,7 +11,7 @@ function App() {
         <Routes>
             <Route index element={<Money/>}/>
             <Route path="tags" element={<Tags/>}/>
-            <Route path="tags/:tag" element={<TagEdit/>}/>
+            <Route path="/tags/:id" element={<TagEdit/>}/>
             <Route path="money" element={<Money/>}/>
             <Route path="statistics" element={<Statistics/>}/>
             <Route path="*" element={<Notfind/>}/>
