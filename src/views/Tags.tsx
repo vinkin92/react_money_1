@@ -1,8 +1,9 @@
 import Layout from '../components/Layout';
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Icon from '../components/Icon';
-import {NavLink, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {useTags} from '../components/useTags';
 
 const TagList = styled.ol`
   font-size: 16px;
@@ -35,7 +36,7 @@ const Center = styled.div`
 `;
 
 function Tags() {
-    const [tags, setTags] = useState<string[]>(['衣', '食', '住', '行']);
+    const {tags,setTags} = useTags()
     return (
         <Layout>
             <TagList>
