@@ -7,7 +7,7 @@ const defaultTags = [
     {id:createId(),name:'行'}
 ]
 const useTags = ()=>{
-    const [tags, setTags] = useState<{ id:number;name:string }[]>(defaultTags);
+    const [tags, setTags] = useState<{ id:number;name:string }[]>([]);
     const findTag = (id:number)=>tags.filter(tag => tag.id === id)[0]
     const findTagIndex = (id:number)=>{
         let result = -1;
@@ -29,6 +29,12 @@ const useTags = ()=>{
         // 找到 tag.id 不为 id 的元素，然后把返回的新数组传给 setTags
         setTags(tags.filter(tag => tag.id !== id))
     }
-    return {tags,setTags,findTag,updateTag,findTagIndex,deleteTag}
+    const addTag=()=>{
+        const tagName = window.prompt('请输入新增的标签');
+        if(tagName !== null){
+            setTags([...tags, {id:createId(),name:tagName}])
+        }
+    }
+    return {tags,setTags,findTag,updateTag,findTagIndex,deleteTag,addTag}
 }
 export {useTags}
