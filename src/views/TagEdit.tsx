@@ -1,5 +1,5 @@
 import React from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams,useNavigate} from 'react-router-dom';
 import {useTags} from '../components/useTags';
 import Layout from '../components/Layout';
 import Icon from '../components/Icon';
@@ -24,15 +24,21 @@ const InputWrapper = styled.div`
   padding: 0 16px;
   margin-top: 16px;
 `
+
 const TagEdit:React.FunctionComponent=()=>{
     let {id} = useParams<Params>();
+    let navigate = useNavigate();
+    const onClickBack = ()=>{
+        navigate("/tags");
+        console.log('hi');
+    }
     const {findTag,updateTag,deleteTag} = useTags()
     if(id){
         const tag = findTag(parseInt(id))
         return (
            <Layout>
                    <Tobar>
-                       <Icon name="left" />
+                       <Icon name="left" onClick={onClickBack}/>
                        <span>编辑标签</span>
                        <Icon />
                    </Tobar>
