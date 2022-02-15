@@ -26,7 +26,7 @@ const InputWrapper = styled.div`
 `
 const TagEdit:React.FunctionComponent=()=>{
     let {id} = useParams<Params>();
-    const {findTag} = useTags()
+    const {findTag,updateTag} = useTags()
     if(id){
         const tag = findTag(parseInt(id))
         return (
@@ -37,7 +37,7 @@ const TagEdit:React.FunctionComponent=()=>{
                        <Icon />
                    </Tobar>
                <InputWrapper>
-               <Input label="备注" type="text" placeholder="标签名" value={tag.name}/></InputWrapper>
+               <Input label="备注" type="text" placeholder="标签名" value={tag.name} onChange={(e)=>{updateTag(tag.id,{name:e.target.value})}}/></InputWrapper>
                 <Center>
                     <Button>删除标签</Button>
                 </Center>
