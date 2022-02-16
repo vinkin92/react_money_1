@@ -1,26 +1,23 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {createId} from '../lib/createId';
-const defaultTags = [
-    {id:createId(),name:'衣'},
-    {id:createId(),name:'食'},
-    {id:createId(),name:'住'},
-    {id:createId(),name:'行'}
-]
+import {useUpdate} from '../hooks/useUpdate';
 const useTags = ()=>{
     const [tags, setTags] = useState<{ id:number;name:string }[]>([]);
     useEffect(()=>{
-        setTags(JSON.parse(window.localStorage.getItem('tags') || '[]'))
-    },[])
-    const count = useRef(0)
-    useEffect(()=>{
-        count.current +=1;
-    })
-    // useEffect hook 功能：在参数二变化的时候触发，如果没有参数二，则只会触发一次
-    useEffect(()=>{
-        if(count.current > 1){
-            window.localStorage.setItem('tags',JSON.stringify(tags))
+        let localTags = JSON.parse(window.localStorage.getItem('tags') || '[]')
+        if (localTags.length === 0){
+             localTags = [
+                {id:createId(),name:'衣'},
+                {id:createId(),name:'食'},
+                {id:createId(),name:'住'},
+                {id:createId(),name:'行'}
+            ]
         }
-    },[tags])
+        setTags(localTags)
+    },[])
+useUpdate(()=>{
+    window.localStorage.setItem('tags',JSON.stringify(tags))
+},[tags])
     const findTag = (id:number)=>tags.filter(tag => tag.id === id)[0]
     const findTagIndex = (id:number)=>{
         let result = -1;
@@ -44,7 +41,7 @@ const useTags = ()=>{
     }
     const addTag=()=>{
         const tagName = window.prompt('请输入新增的标签');
-        if(tagName !== null){
+        if(tagName !== null && tagName !== ''){
             setTags([...tags, {id:createId(),name:tagName}])
         }
     }
