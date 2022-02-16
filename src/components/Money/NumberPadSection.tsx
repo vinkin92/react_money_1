@@ -5,6 +5,7 @@ import {generateOutput} from './NumberPadSection/generateOutput';
 type Props = {
     value:number;
     onChange:(number:number)=>void;
+    onOk?: ()=> void
 }
 const NumberPadSection: React.FunctionComponent<Props> = (props) => {
     const output = props.value.toString();
@@ -22,7 +23,8 @@ const NumberPadSection: React.FunctionComponent<Props> = (props) => {
         if (text === null) {
             return;
         }
-        if(text === 'ok'){
+        if(text === 'OK'){
+            if(props.onOk){props.onOk()}
             return;
         }
         if('0123456789.'.split('').concat(['清除','删除']).indexOf(text) >=0){
