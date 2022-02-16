@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {createId} from '../lib/createId';
 const defaultTags = [
     {id:createId(),name:'衣'},
@@ -8,6 +8,19 @@ const defaultTags = [
 ]
 const useTags = ()=>{
     const [tags, setTags] = useState<{ id:number;name:string }[]>([]);
+    useEffect(()=>{
+        setTags(JSON.parse(window.localStorage.getItem('tags') || '[]'))
+    },[])
+    const count = useRef(0)
+    useEffect(()=>{
+        count.current +=1;
+    })
+    // useEffect hook 功能：在参数二变化的时候触发，如果没有参数二，则只会触发一次
+    useEffect(()=>{
+        if(count.current > 1){
+            window.localStorage.setItem('tags',JSON.stringify(tags))
+        }
+    },[tags])
     const findTag = (id:number)=>tags.filter(tag => tag.id === id)[0]
     const findTagIndex = (id:number)=>{
         let result = -1;
