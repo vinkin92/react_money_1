@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {CategorySection} from '../components/Money/CategorySection';
 import {RecordItem, useRecords} from '../hooks/useRecords';
 import {useTags} from '../components/useTags';
@@ -16,6 +16,11 @@ const Item = styled.div`
     margin-left: 16px;
     color:#999;
   }
+`
+const Header = styled.h3`
+  font-size:18px;
+  line-height: 20px;
+  padding: 10px 16px;
 `
 function Statistics() {
     const [category,setCategory] = useState<'+' | '-'>('-')
@@ -42,20 +47,22 @@ function Statistics() {
             <CategorySection value={category} onChange={value=> setCategory(value)}/>
             {array.map(([data,records]) =>
                 <div>
-                    <h3>{data}</h3>
+                    <Header>{data}</Header>
                     <div>
                         {
                             records.map(r=>{
                                 return <Item>
-                                    <div className="tags">
-                                        {r.tagIds.map(tagId => <span key={tagId}>{getName(tagId)}</span>)}
+                                    <div className="tags oneLine">
+                                        {r.tagIds
+                                            .map(tagId => <span key={tagId}>{getName(tagId)}</span>)
+                                            // [span,span,span] => [span,',',span,',']，多個標簽之間添加逗號
+                                            .reduce((result,span,index,array)=>
+                                                result.concat(index < array.length-1 ? [span,'，'] : [span]),[] as ReactNode[])
+                                        }
                                     </div>
                                     {r.note && <div className="note">{r.note}</div>}
                                     <div className="amount">
                                         ￥{r.amount}
-                                    </div>
-                                    <div className="day">
-                                        {dayjs(r.createdAt).format('YYYY年MM月DD日')}
                                     </div>
                                 </Item>
                             })
