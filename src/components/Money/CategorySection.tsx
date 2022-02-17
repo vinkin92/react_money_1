@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 
 const Wrapper = styled.section`
-  background-color: #c4c4c4;
   font-size: 24px;
 
   > ul {
