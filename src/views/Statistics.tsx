@@ -21,12 +21,14 @@ function Statistics() {
     const [category,setCategory] = useState<'+' | '-'>('-')
     const {records} = useRecords()
     const {getName} = useTags()
+    // 收入支出分開
+    const selectedRecords = records.filter(r => r.category === category)
     return (
         <Layout>
             <CategorySection value={category} onChange={value=> setCategory(value)}/>
         <div>
             {
-                records.map(r=>{
+                selectedRecords.map(r=>{
                     return <Item>
                         <div className="tags">
                             {r.tagIds.map(tagId => <span>{getName(tagId)}</span>)}
